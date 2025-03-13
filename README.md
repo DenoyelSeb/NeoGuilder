@@ -6,7 +6,7 @@ Inspired by the Guilder, the world's first global currency, NeoGuilder is my fir
 
 🚀 Features
 
-- Taxed Transactions (5% transfer tax)
+- Taxed Transactions (3% transfer tax)
 - Token Burning
 - Staking & Unstaking
 - MetaMask Wallet Integration

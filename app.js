@@ -90,6 +90,7 @@ async function getBalance() {
 }
 
 // **Transfer Tokens**
+// **Transfer Tokens**
 async function transferTokens() {
     if (!contract) return alert("❌ Connect your wallet first!");
 
@@ -99,9 +100,15 @@ async function transferTokens() {
     if (!ethers.isAddress(recipient)) return alert("❌ Invalid recipient address!");
     
     try {
-        const tx = await contract.transfer(recipient, ethers.parseUnits(amount, 18));
+        const parsedAmount = ethers.parseUnits(amount, 18);
+        const taxRate = 3; // 3% tax
+        const taxAmount = parsedAmount * BigInt(taxRate) / BigInt(100);
+        const netAmount = parsedAmount - taxAmount; // Amount received after tax
+
+        const tx = await contract.transfer(recipient, parsedAmount);
         await tx.wait();
-        alert("✅ Transfer successful!");
+
+        alert(`✅ Transfer successful! Recipient receives ${ethers.formatUnits(netAmount, 18)} NGD after tax.`);
         getBalance();
     } catch (error) {
         console.error("❌ Transfer error:", error);

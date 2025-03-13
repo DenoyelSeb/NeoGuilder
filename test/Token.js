@@ -9,7 +9,7 @@ describe("NeoGuilder Token Frontend Tests", function () {
   async function deployTokenFixture() {
     const [owner, addr1, addr2] = await ethers.getSigners();
     const TokenFactory = await ethers.getContractFactory("Token");
-    const token = await TokenFactory.deploy(1000000, 5); // Supply: 1,000,000 tokens, Tax: 5%
+    const token = await TokenFactory.deploy(1000000, 3); // Supply: 1,000,000 tokens, Tax: 3%
     await token.waitForDeployment();
     return { token, owner, addr1, addr2 };
   }
@@ -22,10 +22,17 @@ describe("NeoGuilder Token Frontend Tests", function () {
 
   it("Should transfer tokens with tax deduction", async function () {
     const { token, owner, addr1 } = await loadFixture(deployTokenFixture);
-    const tx = await token.transfer(addr1.address, ethers.parseUnits("500", 18)); // 5% tax applied
+    
+    const transferAmount = ethers.parseUnits("500", 18);
+    const taxRate = 3; // 3% tax
+    const taxAmount = transferAmount * BigInt(taxRate) / BigInt(100); // Calculate tax
+    const expectedAmount = transferAmount - taxAmount; // Net amount received
+    
+    const tx = await token.transfer(addr1.address, transferAmount);
     await tx.wait();
+
     const addr1Balance = await token.balanceOf(addr1.address);
-    expect(addr1Balance).to.equal(ethers.parseUnits("475", 18)); // 500 - 5% = 475 tokens
+    expect(addr1Balance).to.equal(expectedAmount);
   });
 
   it("Should burn tokens correctly", async function () {
@@ -41,7 +48,7 @@ describe("NeoGuilder Token Frontend Tests", function () {
     const tx = await token.transfer(addr1.address, ethers.parseUnits("1000", 18));
     await tx.wait();
     const addr1Balance = await token.balanceOf(addr1.address);
-    expect(addr1Balance).to.equal(ethers.parseUnits("950", 18)); // 1000 - 5% = 950 tokens
+    expect(addr1Balance).to.equal(ethers.parseUnits("970", 18)); // 1000 - 3% = 970 tokens
   });
 
   it("Should return the correct owner balance", async function () {
