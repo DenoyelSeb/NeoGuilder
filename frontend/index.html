@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoGuilder - Interact</title>
+    <script type="module" src="../app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>NeoGuilder - Interface</h1>
+
+    <button id="connect-button">Connect Wallet</button>
+    <p id="wallet-address">Adress : Disconnected</p>
+
+    <hr>
+
+    <h2>Transfer with Taxation</h2>
+    <input type="text" id="recipient" placeholder="Recipient Adress">
+    <input type="number" id="amount" placeholder="Amount">
+    <button id="transfer-button">Send</button>
+
+    <hr>
+
+    <h2>Burn (Destroy NeoGuilders)</h2>
+    <input type="number" id="burn-amount" placeholder="Amount to burn">
+    <button id="burn-button">Burn</button>
+
+    <hr>
+
+    <h2>Staking</h2>
+    <input type="number" id="stake-amount" placeholder="Amount to stake">
+    <button id="stake-button">Stake</button>
+    <button id="unstake-button">Unstake</button>
+
+    <hr>
+
+    <h2>NeoGuilder Balance</h2>
+    <button id="balance-button">Verify Balance</button>
+    <p id="balance">Balance : --</p>
+
+</body>
+</html>

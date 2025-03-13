@@ -1,0 +1,91 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-top: 20px;
+    font-size: 2rem;
+    color: #FFD700; 
+}
+
+h2 {
+    color: #ffffff;
+    margin-top: 20px;
+}
+
+hr {
+    border: 1px solid #333;
+    width: 80%;
+    margin: 20px auto;
+}
+
+/* Buttons */
+button {
+    background-color: #FFD700; 
+    color: #121212; 
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #FFC107;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Inputs */
+input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #FFD700;
+    background-color: #222;
+    color: #ffffff;
+    border-radius: 5px;
+    outline: none;
+    width: 250px;
+    margin: 10px;
+    text-align: center;
+}
+
+input::placeholder {
+    color: #aaaaaa;
+}
+
+/* Connect Wallet */
+#connect-button {
+    background-color: #4CAF50; 
+}
+
+#connect-button:hover {
+    background-color: #45a049;
+}
+
+#balance {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #FFD700;
+}
+
+#wallet-address {
+    font-size: 1rem;
+    color: #aaa;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
