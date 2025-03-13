@@ -32,7 +32,7 @@ Hardhat
 
 2/ Clone the Repository
 
-git clone https://github.com/yourusername/NeoGuilder.git
+git clone https://github.com/DenoyelSeb/NeoGuilder.git
 cd NeoGuilder
 
 3/ Install Dependencies
