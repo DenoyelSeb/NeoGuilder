@@ -11,7 +11,7 @@ Inspired by the Guilder, the world's first global currency, NeoGuilder is my fir
 - Staking & Unstaking
 - MetaMask Wallet Integration
 - Unit Tests with Hardhat
-- Basic Frontend (ethers.js) (Not fully tested)
+- Basic Frontend (ethers.js) 
 
 🛠️ Planned Features
 
@@ -80,7 +80,7 @@ NeoGuilder includes a basic frontend (ethers.js-based). To use it:
 
 - Ensure MetaMask is connected to Sepolia.
 - Open index.html in a browser.
-- Click “Connect Wallet” to interact. (Other frontend functions have not been fully tested.)
+- Click “Connect Wallet” to interact. 
 
 ✅ Confirmed to work with MetaMask
 
