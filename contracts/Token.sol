@@ -28,13 +28,15 @@ contract Token is ERC20, Ownable {
     }
 
     function stake(uint256 amount) external {
-        require(balanceOf(msg.sender) >= amount, "Insufficient funds");
-        _taxedTransfer(msg.sender, address(this), amount);
-        stakedBalances[msg.sender] += amount;
-        stakingStartTime[msg.sender] = block.timestamp;
+    require(balanceOf(msg.sender) >= amount, "Insufficient funds");
+
+    super._transfer(msg.sender, address(this), amount);
+
+    stakedBalances[msg.sender] += amount;
+    stakingStartTime[msg.sender] = block.timestamp;
     }
 
-    function claimRewards() external {
+    function claimRewards() internal {
         require(stakedBalances[msg.sender] > 0, "No active staking");
         uint256 stakedTime = block.timestamp - stakingStartTime[msg.sender];
         uint256 reward = (stakedBalances[msg.sender] * REWARD_RATE * stakedTime) / (365 days);
@@ -42,12 +44,16 @@ contract Token is ERC20, Ownable {
         stakingStartTime[msg.sender] = block.timestamp; 
     }
 
-    function unstake() external {
-        require(stakedBalances[msg.sender] > 0, "No active staking");
-        uint256 amount = stakedBalances[msg.sender];
-        stakedBalances[msg.sender] = 0;
-        stakingStartTime[msg.sender] = 0;
-        _taxedTransfer(address(this), msg.sender, amount);
+function unstake() external {
+    require(stakedBalances[msg.sender] > 0, "No active staking");
+
+    claimRewards();
+
+    uint256 amount = stakedBalances[msg.sender];
+    stakedBalances[msg.sender] = 0;
+    stakingStartTime[msg.sender] = 0;
+
+    super._transfer(address(this), msg.sender, amount);
     }
 
     function _taxedTransfer(address from, address to, uint256 amount) internal {
