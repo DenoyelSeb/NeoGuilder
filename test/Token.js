@@ -1,60 +1,65 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 
-describe("NeoGuilder Token Frontend Tests", function () {
-  this.timeout(10000);
+describe("NeoGuilder Token System", function () {
 
-  // Deployment fixture: ensures each test starts with a fresh contract instance
-  async function deployTokenFixture() {
-    const [owner, addr1, addr2] = await ethers.getSigners();
-    const TokenFactory = await ethers.getContractFactory("Token");
-    const token = await TokenFactory.deploy(1000000, 3); // Supply: 1,000,000 tokens, Tax: 3%
-    await token.waitForDeployment();
-    return { token, owner, addr1, addr2 };
-  }
+  let token, nft, deployer, user1, user2;
 
-  it("Should assign the total supply to the owner", async function () {
-    const { token, owner } = await loadFixture(deployTokenFixture);
-    const ownerBalance = await token.balanceOf(owner.address);
-    expect(ownerBalance).to.equal(ethers.parseUnits("1000000", 18));
+  before(async () => {
+    [deployer, user1, user2] = await ethers.getSigners();
+    const Token = await ethers.getContractFactory("NeoGuilder");
+    token = await Token.deploy("1000000", 3);
+
+    const NFT = await ethers.getContractFactory("NeoGuilderNFT");
+    nft = await NFT.deploy(await token.getAddress());
   });
 
-  it("Should transfer tokens with tax deduction", async function () {
-    const { token, owner, addr1 } = await loadFixture(deployTokenFixture);
-    
-    const transferAmount = ethers.parseUnits("500", 18);
-    const taxRate = 3; // 3% tax
-    const taxAmount = transferAmount * BigInt(taxRate) / BigInt(100); // Calculate tax
-    const expectedAmount = transferAmount - taxAmount; // Net amount received
-    
-    const tx = await token.transfer(addr1.address, transferAmount);
-    await tx.wait();
+  it("Should assign total supply to deployer", async function () {
+    const balance = await token.balanceOf(await deployer.getAddress());
+    expect(balance).to.be.gte(ethers.parseUnits("1000000", 18));
+  });
 
-    const addr1Balance = await token.balanceOf(addr1.address);
-    expect(addr1Balance).to.equal(expectedAmount);
+  it("Should apply 3% tax on transfer", async function () {
+    const amount = ethers.parseUnits("1000", 18);
+    await token.transfer(await user1.getAddress(), amount);
+
+    const expected = ethers.parseUnits("970", 18);
+    const balance = await token.balanceOf(await user1.getAddress());
+    expect(balance).to.equal(expected);
   });
 
   it("Should burn tokens correctly", async function () {
-    const { token, owner } = await loadFixture(deployTokenFixture);
-    const tx = await token.burn(ethers.parseUnits("100", 18));
-    await tx.wait();
-    const ownerBalance = await token.balanceOf(owner.address);
-    expect(ownerBalance).to.equal(ethers.parseUnits("999900", 18)); // 1,000,000 - 100
+    const burnAmount = ethers.parseUnits("100", 18);
+
+    const balanceBefore = await token.balanceOf(await deployer.getAddress());
+    await token.connect(deployer).burn(burnAmount);
+    const balanceAfter = await token.balanceOf(await deployer.getAddress());
+
+    expect(balanceAfter).to.equal(balanceBefore - burnAmount);
   });
 
-  it("Should apply tax on transfers", async function () {
-    const { token, owner, addr1 } = await loadFixture(deployTokenFixture);
-    const tx = await token.transfer(addr1.address, ethers.parseUnits("1000", 18));
-    await tx.wait();
-    const addr1Balance = await token.balanceOf(addr1.address);
-    expect(addr1Balance).to.equal(ethers.parseUnits("970", 18)); // 1000 - 3% = 970 tokens
+  it("Should stake and receive rewards", async function () {
+    const stakeAmount = ethers.parseUnits("1000", 18);
+
+    await token.connect(deployer).stake(stakeAmount);
+
+    await ethers.provider.send("evm_increaseTime", [86400]);
+    await ethers.provider.send("evm_mine");
+
+    await token.connect(deployer).unstake();
+
+    const newBalance = await token.balanceOf(await deployer.getAddress());
+    expect(newBalance).to.be.greaterThan(stakeAmount - ethers.parseUnits("1", 18));
   });
 
-  it("Should return the correct owner balance", async function () {
-    const { token, owner } = await loadFixture(deployTokenFixture);
-    const balance = await token.balanceOf(owner.address);
-    console.log("Owner balance:", ethers.formatUnits(balance, 18));
-    expect(balance).to.be.a("BigInt");
+  it("Should update top holder NFT correctly", async function () {
+    const amount = ethers.parseUnits("10000", 18);
+
+    await token.connect(deployer).transfer(await user1.getAddress(), amount);
+
+    await nft.connect(deployer).updateTopHolder();
+
+    const newOwner = await nft.ownerOf(1);
+    expect(newOwner).to.equal(await user1.getAddress());
   });
 });

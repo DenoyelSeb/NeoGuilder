@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeoGuilder - Interact</title>
-    <script type="module" src="../app.js"></script>
+    <script type="module" src="app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,12 +12,16 @@
     <h1>NeoGuilder - Interface</h1>
 
     <button id="connect-button">Connect Wallet</button>
-    <p id="wallet-address">Adress : Disconnected</p>
+    <p id="wallet-address">Address : Disconnected</p>
 
     <hr>
 
+    <div id="nft-badge" style="display: none;">
+        <img src="topHolder.png" alt="NFT Badge" style="width: 100px;">
+    </div>
+
     <h2>Transfer with Taxation</h2>
-    <input type="text" id="recipient" placeholder="Recipient Adress">
+    <input type="text" id="recipient" placeholder="Recipient Address">
     <input type="number" id="amount" placeholder="Amount">
     <button id="transfer-button">Send</button>
 
@@ -39,6 +43,36 @@
     <h2>NeoGuilder Balance</h2>
     <button id="balance-button">Verify Balance</button>
     <p id="balance">Balance : --</p>
+
+    <hr>
+
+    <!-- === DAO SECTION === -->
+    <h2>DAO Controls</h2>
+
+    <h3>Delegate</h3>
+    <input type="text" id="delegate-to" placeholder="Address to delegate to">
+    <button id="delegate-button">Delegate</button>
+
+    <h3>Propose (Tax Update)</h3>
+    <input type="number" id="new-tax" placeholder="New tax rate (0–10)">
+    <button id="propose-button">Create Proposal</button>
+
+    <h3>Vote</h3>
+    <input type="number" id="vote-proposal-id" placeholder="Proposal ID">
+    <select id="vote-choice">
+        <option value="for">Vote FOR</option>
+        <option value="against">Vote AGAINST</option>
+    </select>
+    <button id="vote-button">Vote</button>
+
+    <h3>Execute</h3>
+    <input type="number" id="execute-proposal-id" placeholder="Proposal ID to execute">
+    <button id="execute-button">Execute</button>
+
+    <hr>
+    <h2>KYC</h2>
+    <button id="kyc-verify-button">Verify Me (KYC)</button>
+    <p id="kyc-status">KYC Status: Unknown</p>
 
 </body>
 </html>

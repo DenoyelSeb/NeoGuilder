@@ -11,8 +11,17 @@ const my_api_key = process.env.API_KEY;
 module.exports = {
   solidity: {
     version: "0.8.28",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
   },
   networks: {
+    localhost: {
+      allowUnlimitedContractSize: true 
+    },
     sepolia: {
       url: my_url,
       accounts: my_accounts
