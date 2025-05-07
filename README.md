@@ -6,16 +6,7 @@ Inspired by the Guilder — the world's first global currency — NeoGuilder was
 
 ---
 
-<<<<<<< HEAD
 ## 🚀 Features
-=======
-- Taxed Transactions (3% transfer tax)
-- Token Burning
-- Staking & Unstaking
-- MetaMask Wallet Integration
-- Unit Tests with Hardhat
-- Basic Frontend (ethers.js) 
->>>>>>> 8a8dac95829f551603ec70d98c52496dd8c4b1e3
 
 - ✅ ERC-20 Token with:
   - Transfer Taxation (3% default, DAO-controlled)
@@ -97,7 +88,6 @@ npx hardhat test
 
 The project includes a lightweight but complete frontend built with Ethers.js.
 
-<<<<<<< HEAD
 To use it:
 - Connect MetaMask to Sepolia
 - Open index.html in your browser
@@ -109,11 +99,6 @@ To use it:
 - See NFT badge if you're the top holder
 - Interact with the DAO: propose, vote, delegate, execute
 - Trigger your KYC verification (via DAO admin)
-=======
-- Ensure MetaMask is connected to Sepolia.
-- Open index.html in a browser.
-- Click “Connect Wallet” to interact. 
->>>>>>> 8a8dac95829f551603ec70d98c52496dd8c4b1e3
 
 🖼️ Example Interface (Top holder gets the NFT badge):
 
@@ -122,15 +107,15 @@ To use it:
 
 
 🧩 Smart Contract Modules
-Contract	            Description
-NeoGuilder.sol	        ERC-20 token with taxation, staking, burn
-NeoGuilderNFT.sol	    ERC-721 NFT assigned to the top NGD holder
-NeoGuilderDAO.sol	    Governance with KYC check, reputation, timelock
-Reputation.sol	        Tracks and ranks voter reputation (tiered)
-KYC.sol	                Simple on-chain whitelist for proposers
-AutoSustainability.sol	Redistributes part of taxation to treasury wallet
-Timelock.sol	        Used by the DAO to delay proposal execution
-FakeDAO.sol	            Helper for bypassing DAO checks in unit tests
+Contract:	                Description
+- NeoGuilder.sol:	        ERC-20 token with taxation, staking, burn
+- NeoGuilderNFT.sol:	    ERC-721 NFT assigned to the top NGD holder
+- NeoGuilderDAO.sol:	    Governance with KYC check, reputation, timelock
+- Reputation.sol:	        Tracks and ranks voter reputation (tiered)
+- KYC.sol:	                Simple on-chain whitelist for proposers
+- AutoSustainability.sol:	Redistributes part of taxation to treasury wallet
+- Timelock.sol:	            Used by the DAO to delay proposal execution
+- FakeDAO.sol:	            Helper for bypassing DAO checks in unit tests
 
 
 🚧 Planned Upgrades
@@ -152,9 +137,5 @@ This project is licensed under the **MIT License** – you are free to use, modi
 This project was designed as a technical showcase and is not meant for production use.  
 Feel free to explore and fork the code for learning purposes.
 
-<<<<<<< HEAD
 
 🚀 Enjoy exploring Web3 with NeoGuilder V2!
-=======
-🚀 Enjoy exploring Web3 with NeoGuilder!
->>>>>>> 8a8dac95829f551603ec70d98c52496dd8c4b1e3
